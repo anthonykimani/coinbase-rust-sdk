@@ -1,19 +1,19 @@
 pub struct Config {
-    pub api_key_name: String,
-    pub private_key: String,
-    pub use_server_signer: bool,
+    pub api_key_id: String,
+    pub api_key_secret: String,
+    pub base_path: String,
 }
 
 impl Config {
     pub fn new(
-        api_key_name: impl Into<String>,
-        private_key: impl Into<String>,
-        use_server_signer: bool,
+        api_key_id: impl Into<String>,
+        api_key_secret: impl Into<String>,
+        base_path: impl Into<String>,
     ) -> Self {
         Self {
-            api_key_name: api_key_name.into(),
-            private_key: private_key.into(),
-            use_server_signer,
+            api_key_id: api_key_id.into(),
+            api_key_secret: api_key_secret.into(),
+            base_path: base_path.into()
         }
     }
 }
