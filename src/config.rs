@@ -1,3 +1,4 @@
+#[derive(Debug, Clone)]
 pub struct Config {
     pub api_key_id: String,
     pub api_key_secret: String,

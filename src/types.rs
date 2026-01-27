@@ -34,3 +34,14 @@ pub enum Assets {
     Eurc,
     Cbbtc,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct Claims {
+    sub: String,
+    iss: String,
+    aud: Vec<String>,
+    iat: i64,
+    nbf: i64,
+    exp: i64,
+    uris: Option<Vec<String>>
+}
