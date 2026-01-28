@@ -1,3 +1,5 @@
+use crate::error::CoinbaseError;
+
 const DEFAULT_BASE_PATH: &str = "https://api.cdp.coinbase.com/platform";
 
 #[derive(Debug, Clone)]
@@ -21,6 +23,18 @@ impl Config {
 
     pub fn with_base_path(self, base_path: impl Into<String>) -> Self {
         Self { base_path: base_path.into(), ..self }
+    }
+
+    pub fn validate(&self) -> Result<(), CoinbaseError> {
+        if self.api_key_id.trim().is_empty() {
+            return Err(CoinbaseError::MissingApiKeyId)
+        }
+
+        if self.api_key_secret.trim().is_empty() {
+            return Err(CoinbaseError::MissingApiKeySecret)
+        }
+
+        Ok(())
     }
 }
 
