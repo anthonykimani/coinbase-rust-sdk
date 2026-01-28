@@ -14,13 +14,7 @@ pub struct Coinbase {
 
 impl Coinbase {
     pub fn generate_jwt(&self, request_method: Option<&str>, request_host: Option<&str>, request_path: Option<&str>, expires_in: Option<u64>, audience: Option<Vec<String>>) -> Result<String, CoinbaseError> {
-        if self.config.api_key_id.trim().is_empty() {
-            return Err(CoinbaseError::MissingApiKeyId);
-        }
-
-        if self.config.api_key_secret.trim().is_empty() {
-            return Err(CoinbaseError::MissingApiKeySecret);
-        }
+        self.config.validate()?;
 
         let all_some = request_method.is_some() && request_host.is_some() && request_path.is_some();
 
