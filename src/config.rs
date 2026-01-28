@@ -36,5 +36,34 @@ impl Config {
 
         Ok(())
     }
+
+    pub fn build_url(&self, path: &str) -> String {
+        let base_path = self.base_path.trim_end_matches('/');
+        let path_str = path.trim_start_matches('/');
+        format!("{base_path}/{path_str}")
+    }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Config;
+
+    #[test]
+    fn build_url_handles_slashes() {
+        // create a config with default base path
+        let config = Config::new("id", "secret");
+
+        // path with leading slash
+        let build_url  = config.build_url("/v1/wallets");
+        assert_eq!(build_url, "https://api.cdp.coinbase.com/platform/v1/wallets");
+
+        // config with trailing slash
+        let config = Config::new("sk-####", "HSKD").with_base_path("https://api.cdp.coinbase.com/platform/");
+
+        let url = config.build_url("v1/wallets");
+        assert_eq!(url, "https://api.cdp.coinbase.com/platform/v1/wallets");
+    }
+}
+
+
 
