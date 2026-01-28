@@ -35,7 +35,7 @@ pub enum Assets {
     Cbbtc,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
     sub: String,
     iss: String,
@@ -44,4 +44,10 @@ pub struct Claims {
     nbf: i64,
     exp: i64,
     uris: Option<Vec<String>>
+}
+
+impl Claims {
+    pub fn new(sub: impl Into<String>, aud: Vec<String>, iat: i64, nbf: i64, exp: i64, uris: Option<Vec<String>> ) -> Self {
+        Self { sub: sub.into(), iss: "cdp".to_string(), aud, iat, nbf, exp, uris }
+    }
 }

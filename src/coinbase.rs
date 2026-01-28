@@ -37,10 +37,14 @@ impl Coinbase {
             return Err(CoinbaseError::InvalidRequestBindingParams);
         }
 
-        let uris = Some(vec![format!(
-            "{:?} {:?}{:?}",
-            request_method, request_host, request_path
-        )]);
+        let uris = if all_some {
+            let method = request_method.unwrap().to_uppercase();
+            let host = request_host.unwrap();
+            let path = request_path.unwrap();
+            vec![format!("{} {}{}", method, host, path)]
+        } else {
+            Vec::new()
+        };
 
         let now = OffsetDateTime::now_utc().unix_timestamp();
         let expires = expires_in.unwrap_or(120);
@@ -65,7 +69,7 @@ mod tests {
     fn build_url_test() {
         let config = Config::new("sk-23fsd", "klds32");
         let coinbase = Coinbase::new(config);
-        
+
         assert_eq!(
             coinbase.build_url("/v1/wallets"),
             "https://api.cdp.coinbase.com/platform/v1/wallets"
