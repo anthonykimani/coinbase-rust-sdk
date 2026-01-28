@@ -49,12 +49,12 @@ mod tests {
     use super::Config;
 
     #[test]
-    fn build_url_handles_slashes() {
+    fn build_url_handles_slashes_test() {
         // create a config with default base path
         let config = Config::new("id", "secret");
 
         // path with leading slash
-        let build_url  = config.build_url("/v1/wallets");
+        let build_url = config.build_url("/v1/wallets");
         assert_eq!(build_url, "https://api.cdp.coinbase.com/platform/v1/wallets");
 
         // config with trailing slash
